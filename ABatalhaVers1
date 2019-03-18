@@ -1,0 +1,132 @@
+package Game;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+
+import javax.swing.Timer;
+public class ABatalhaVers1 extends JPanel{
+	 
+	  
+	Rectangle platform = new Rectangle(170, 34, 40, 50);
+	
+	private final int B_WIDTH = 350;
+	private final int B_HEIGHT = 350;
+	private final int INICIAL_X = 170;
+	private final int INICIAL_Y= 34;
+	private final int INICIAL_LARGURA = 40;
+	private final int INICIAL_ALTURA = 50;
+	private Timer timer;
+	private int x, y, largura, altura;
+	
+
+	/*Nessa versão: "A Batalha versão 1" /_Lucas, o loop utilizado é o update do pacote Swing que é chamado automaticamente, a desvantagem dessa versão é a falta 
+	 * de customização da velocidade da animação. 
+	 */
+	public ABatalhaVers1() {
+		 
+		setBounds(0, 0, 500, 400);
+		setBackground(Color.gray);
+		setFocusable(true);
+		
+		
+		x = INICIAL_X;
+		y = INICIAL_Y;
+		largura = INICIAL_LARGURA;
+		altura = INICIAL_ALTURA;
+	 
+	 
+		 
+		
+		 
+	}
+
+ 
+ public static void main(String[] args) {
+	 
+	ABatalhaVers1 gamemain = new ABatalhaVers1();
+	 
+	 
+	 JFrame f = new JFrame("A Batalha versao 1 by: lucasindiesh1p.wordpress.com/");
+		// f.setTitle("Game");
+	 f.add(gamemain);
+	 f.setSize(700, 500);
+	 f.setLayout(null);
+	 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	 //f.pack(); //ajusta os componentes na dimensão do jpanel  
+	 f.setVisible(true);
+ }
+ 
+ 
+ @Override
+ public void update(Graphics g) {
+	 paint(g);
+	 //desenharEfeito(g);
+ }
+ 
+ @Override
+ public void paint(Graphics g) {
+	 g.setColor(Color.BLACK);
+	 g.fillRect(0, 0, getWidth(), getHeight());
+	 
+	 g.setColor(Color.white);
+	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
+	 g.drawString("A Batalha - metodo de loop: usando somente o update automatico do Swing", 0, 10);
+	 
+	
+	g.setColor(Color.white);
+	g.fillRect(platform.x, platform.y, platform.width, platform.height);
+	
+	g.setColor(Color.gray);
+	g.fillOval(170, 250, platform.width, platform.height);
+	
+	
+	//efeito animado
+	g.setColor(Color.orange);
+	g.fillRect(x, y, largura, altura);
+	
+	
+	//--
+	x -=1;
+	largura += 2;
+	y -= 1;
+	altura += 2;
+	
+	if(y <INICIAL_Y - 10) {
+		y = INICIAL_Y;
+		altura = INICIAL_ALTURA;
+		
+		if(x < INICIAL_X - 20)
+			x = INICIAL_X;
+			largura = INICIAL_LARGURA;
+	
+	}
+	Toolkit.getDefaultToolkit().sync();//sem essa linha a animação não vai ficar boa no Linux.
+	
+		g.dispose();
+		repaint();
+ }
+
+/*
+@Override
+public void actionPerformed(ActionEvent e) {
+	x += 1;
+	y += 1;
+	if( y > B_HEIGHT) {
+		y = INITIAL_Y;
+		x = INITIAL_X;
+	}
+	repaint();
+}
+*/
+}
