@@ -9,13 +9,15 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
 import javax.swing.Timer;
-public class ABatalhaVers1 extends JPanel{
+public class ABatalhaVers1 extends JPanel implements KeyListener{
 	 
 	  
 	Rectangle platform = new Rectangle(170, 34, 40, 50);
@@ -28,10 +30,11 @@ public class ABatalhaVers1 extends JPanel{
 	private final int INICIAL_ALTURA = 50;
 	private Timer timer;
 	private int x, y, largura, altura;
+        private int player_x, player_y;
 	
 
-	/*Nessa versão: "A Batalha versão 1" /_Lucas, o loop utilizado é o update do pacote Swing que é chamado automaticamente, a desvantagem dessa versão é a falta 
-	 * de customização da velocidade da animação. 
+	/*Nessa vers�o: "A Batalha vers�o 1" /_Lucas, o loop utilizado � o update do pacote Swing que � chamado automaticamente, a desvantagem dessa vers�o � a falta 
+	 * de customiza��o da velocidade da anima��o. 
 	 */
 	public ABatalhaVers1() {
 		 
@@ -44,9 +47,10 @@ public class ABatalhaVers1 extends JPanel{
 		y = INICIAL_Y;
 		largura = INICIAL_LARGURA;
 		altura = INICIAL_ALTURA;
+                player_x = 150;
+                player_y = 200;
 	 
-	 
-		 
+		 addKeyListener(this);
 		
 		 
 	}
@@ -63,7 +67,7 @@ public class ABatalhaVers1 extends JPanel{
 	 f.setSize(700, 500);
 	 f.setLayout(null);
 	 f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 //f.pack(); //ajusta os componentes na dimensão do jpanel  
+	 //f.pack(); //ajusta os componentes na dimens�o do jpanel  
 	 f.setVisible(true);
  }
  
@@ -83,12 +87,16 @@ public class ABatalhaVers1 extends JPanel{
 	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
 	 g.drawString("A Batalha - metodo de loop: usando somente o update automatico do Swing", 0, 10);
 	 
-	
+	g.setColor(Color.white);
+	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
+	 g.drawString("Aperte 'A' para ir para mover para esquerda ou 'D' para mover para direita", 0, 300);
+	 
+         
 	g.setColor(Color.white);
 	g.fillRect(platform.x, platform.y, platform.width, platform.height);
 	
 	g.setColor(Color.gray);
-	g.fillOval(170, 250, platform.width, platform.height);
+	g.fillOval(player_x, player_y, platform.width, platform.height);
 	
 	
 	//efeito animado
@@ -111,11 +119,12 @@ public class ABatalhaVers1 extends JPanel{
 			largura = INICIAL_LARGURA;
 	
 	}
-	Toolkit.getDefaultToolkit().sync();//sem essa linha a animação não vai ficar boa no Linux.
+	Toolkit.getDefaultToolkit().sync();//sem essa linha a anima��o n�o vai ficar boa no Linux.
 	
 		g.dispose();
 		repaint();
  }
+
 
 /*
 @Override
@@ -129,4 +138,29 @@ public void actionPerformed(ActionEvent e) {
 	repaint();
 }
 */
+  
+ @Override
+public void keyPressed(KeyEvent e) {
+	 int c = e.getKeyCode();
+
+	 if(c == KeyEvent.VK_A) {
+		player_x -= 4;
+	
+	 }
+	 if(c == KeyEvent.VK_D) {
+		player_x += 4;
+		
+	 }
+	 
+}
+
+    @Override
+    public void keyTyped(KeyEvent ke) {
+         
+    }
+
+    @Override
+    public void keyReleased(KeyEvent ke) {
+        
+    }
 }
