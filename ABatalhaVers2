@@ -32,6 +32,7 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 	private Timer timer;
 	private int x, y, largura, altura;
         private int player_x, player_y;
+        private boolean cenario1Menu;
 	
 
 	/*Nessa vers�o: "A Batalha vers�o 2" /_Lucas, o loop utilizado � o: Swing timer, diferente da Vers�o 1 nesse podemos controlar a velocidade atrav�s do DELAY
@@ -51,12 +52,17 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 		altura = INICIAL_ALTURA;
 	
           
+                    
+                cenario1Menu = true;
+                
+                
 		//Swing Timer: Respons�vel pela anima��o.		
 		timer = new Timer(DELAY, this);// aqui podemos controlar a velocidade da anima��o, atrav�s da vari�vel DELAY
 		timer.start(); //O m�todo actionPerformed()  � automaticamente e repetidamente invocado pelo uso do timer.
 		 
                 player_x = 150;
                 player_y = 200;
+            
 	 
 		 addKeyListener(this);
 		 
@@ -97,6 +103,16 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
 	 g.drawString("A Batalha - metodo de loop: Swing timer", 0, 10);
 	 
+         
+        if(cenario1Menu == true){
+	 g.setFont(new Font("Times new Roman", Font.BOLD, 20));
+	 g.drawString("Novo Jogo (aperte enter para começar)", 50, 150);
+         g.drawString("Carregar Jogo Salvo", 50, 175);
+         g.drawString("Sair", 50, 195);
+        }
+          
+         
+      if(cenario1Menu == false){
          g.setColor(Color.white);
 	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
 	 g.drawString("Aperte 'A' para ir para mover para esquerda ou 'D' para mover para direita", 0, 300);
@@ -107,8 +123,10 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 	
 	g.setColor(Color.gray);
 	g.fillOval(player_x, player_y, platform.width, platform.height);
-	
+         
      desenharEfeito(g);
+ }
+         
  }
  
  
@@ -148,6 +166,13 @@ if(y <INICIAL_Y - 10) {
 		player_x += 4;
 		
 	 }
+          if(c == KeyEvent.VK_ENTER){
+             if(cenario1Menu == true)
+                 cenario1Menu = false;
+             else
+                 cenario1Menu = true;
+         }
+         
 	 }
 
     
