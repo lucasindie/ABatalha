@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
 
-import javax.swing.Timer;
+
 public class ABatalhaVers1 extends JPanel implements KeyListener{
 	 
 	  
@@ -28,9 +28,9 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
 	private final int INICIAL_Y= 34;
 	private final int INICIAL_LARGURA = 40;
 	private final int INICIAL_ALTURA = 50;
-	private Timer timer;
 	private int x, y, largura, altura;
         private int player_x, player_y;
+        private boolean cenario1Menu;
 	
 
 	/*Nessa vers�o: "A Batalha vers�o 1" /_Lucas, o loop utilizado � o update do pacote Swing que � chamado automaticamente, a desvantagem dessa vers�o � a falta 
@@ -49,7 +49,9 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
 		altura = INICIAL_ALTURA;
                 player_x = 150;
                 player_y = 200;
-	 
+                
+                cenario1Menu = true;
+                
 		 addKeyListener(this);
 		
 		 
@@ -80,13 +82,24 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
  
  @Override
  public void paint(Graphics g) {
+
 	 g.setColor(Color.BLACK);
 	 g.fillRect(0, 0, getWidth(), getHeight());
-	 
+         
 	 g.setColor(Color.white);
 	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
 	 g.drawString("A Batalha - metodo de loop: usando somente o update automatico do Swing", 0, 10);
 	 
+         
+         
+         if(cenario1Menu == true){
+	 g.setFont(new Font("Times new Roman", Font.BOLD, 20));
+	 g.drawString("Novo Jogo (aperte enter para começar)", 50, 150);
+         g.drawString("Carregar Jogo Salvo", 50, 175);
+         g.drawString("Sair", 50, 195);
+         }
+         
+         if(cenario1Menu == false){
 	g.setColor(Color.white);
 	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
 	 g.drawString("Aperte 'A' para ir para mover para esquerda ou 'D' para mover para direita", 0, 300);
@@ -99,6 +112,8 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
 	g.fillOval(player_x, player_y, platform.width, platform.height);
 	
 	
+      
+       
 	//efeito animado
 	g.setColor(Color.orange);
 	g.fillRect(x, y, largura, altura);
@@ -119,6 +134,7 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
 			largura = INICIAL_LARGURA;
 	
 	}
+     }
 	Toolkit.getDefaultToolkit().sync();//sem essa linha a anima��o n�o vai ficar boa no Linux.
 	
 		g.dispose();
@@ -151,6 +167,13 @@ public void keyPressed(KeyEvent e) {
 		player_x += 4;
 		
 	 }
+         
+         if(c == KeyEvent.VK_ENTER){
+             if(cenario1Menu == true)
+                 cenario1Menu = false;
+             else
+                 cenario1Menu = true;
+         }
 	 
 }
 
