@@ -33,7 +33,7 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 	private int x, y, largura, altura;
         private int player_x, player_y;
         private boolean cenario1Menu;
-	
+	private int largura_janela;
 
 	/*Nessa vers�o: "A Batalha vers�o 2" /_Lucas, o loop utilizado � o: Swing timer, diferente da Vers�o 1 nesse podemos controlar a velocidade atrav�s do DELAY
 	 * da anima��o.
@@ -41,7 +41,10 @@ public class ABatalhaVers2 extends JPanel implements ActionListener, KeyListener
 	public ABatalhaVers2(){
 		//setSize(new Dimension(500, 400));
 		//setPreferredSize(new Dimension(500, 400));
-		setBounds(0, 0, 500, 400);
+                
+                largura_janela = 500;
+              
+		setBounds(0, 0, largura_janela, 400);
 		setBackground(Color.gray);
 		setFocusable(true);
 		
@@ -145,7 +148,17 @@ if(y <INICIAL_Y - 10) {
 		x = INICIAL_X;
 		largura = INICIAL_LARGURA;
    
+               
 }
+ //colisao com a borda:
+if(player_x>=largura_janela -45)
+    player_x -= 20;
+
+if(player_x<=0 +5)
+    player_x += 20;
+
+
+
 	repaint(); //Chama m�todo  paintComponent
 }
  
@@ -160,10 +173,13 @@ if(y <INICIAL_Y - 10) {
 
 	 if(c == KeyEvent.VK_A) {
 		player_x -= 4;
+                
 	
 	 }
 	 if(c == KeyEvent.VK_D) {
 		player_x += 4;
+                
+               
 		
 	 }
           if(c == KeyEvent.VK_ENTER){
