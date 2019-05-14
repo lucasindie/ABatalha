@@ -32,6 +32,7 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
         private int player_x, player_y;
         private boolean cenario1Menu;
 	private int largura_janela;
+             private int coord_menuponteiro_y, menu_op;
 
 	/*Nessa vers�o: "A Batalha vers�o 1" /_Lucas, o loop utilizado � o update do pacote Swing que � chamado automaticamente, a desvantagem dessa vers�o � a falta 
 	 * de customiza��o da velocidade da anima��o. 
@@ -52,6 +53,9 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
                 player_y = 200;
                 
                 cenario1Menu = true;
+                
+                coord_menuponteiro_y = 135;
+                menu_op = 1;
                 
 		 addKeyListener(this);
 		
@@ -98,6 +102,10 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
 	 g.drawString("Novo Jogo (aperte enter para começar)", 50, 150);
          g.drawString("Carregar Jogo Salvo", 50, 175);
          g.drawString("Sair", 50, 195);
+          //seletor de controle para usuário no menu
+         g.setColor(Color.blue);
+	g.fillOval(20, coord_menuponteiro_y, 10, 10);
+        
          }
          
          if(cenario1Menu == false){
@@ -179,11 +187,52 @@ public void keyPressed(KeyEvent e) {
 		
 	 }
          
+         if(c == KeyEvent.VK_W){
+                coord_menuponteiro_y -= 25;
+                
+             if(coord_menuponteiro_y <= 135){
+                 coord_menuponteiro_y = 135;
+
+                 menu_op = 1;
+                               }
+             else{
+            menu_op = 2;
+             }
+             
+         }
+         
+         if(c== KeyEvent.VK_S){
+             coord_menuponteiro_y += 25;
+             
+             if(coord_menuponteiro_y >= 185){
+                 coord_menuponteiro_y = 185;
+                 menu_op = 3;
+             }
+             else{
+                 menu_op = 2;
+                 if(coord_menuponteiro_y >= 185)
+                 menu_op = 3;
+                 
+             }
+         }
+         
          if(c == KeyEvent.VK_ENTER){
+              if(menu_op == 1){
+                  //novo jogo
              if(cenario1Menu == true)
                  cenario1Menu = false;
+               
              else
                  cenario1Menu = true;
+          }
+              if(menu_op == 2){
+              //continuar
+              }
+              
+              if(menu_op == 3){
+              //Sair
+               System.exit(0);
+              }
          }
 	 
 }
