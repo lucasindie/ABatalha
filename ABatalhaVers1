@@ -33,6 +33,10 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
         private boolean cenario1Menu;
 	private int largura_janela;
              private int coord_menuponteiro_y, menu_op;
+                     private int barra_energ_largura;
+        private boolean projetil;
+        private int projetil_x, projetil_y;
+             private Color projetil_explosion;
 
 	/*Nessa vers�o: "A Batalha vers�o 1" /_Lucas, o loop utilizado � o update do pacote Swing que � chamado automaticamente, a desvantagem dessa vers�o � a falta 
 	 * de customiza��o da velocidade da anima��o. 
@@ -56,6 +60,16 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
                 
                 coord_menuponteiro_y = 135;
                 menu_op = 1;
+                
+                 barra_energ_largura = 0;
+                
+                projetil = false;
+                
+                
+                projetil_explosion = Color.orange;
+                
+                 projetil_x = player_x + 10;
+                projetil_y = player_y - 20;
                 
 		 addKeyListener(this);
 		
@@ -116,33 +130,68 @@ public class ABatalhaVers1 extends JPanel implements KeyListener{
          
 	g.setColor(Color.white);
 	g.fillRect(platform.x, platform.y, platform.width, platform.height);
+        
+        //exibir coorenadas do alvo
+        g.setColor(Color.white);
+	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
+	 g.drawString("plataform_x:"+platform.x, 300, 20);
+         g.drawString("plataform_y:"+platform.y, 300, 40);
+         g.drawString("plataform_width:"+platform.width, 300, 60);
+         g.drawString("plataform_height:"+platform.height, 300, 80);
+         
 	
 	g.setColor(Color.gray);
 	g.fillOval(player_x, player_y, platform.width, platform.height);
 	
 	
       
+       //barra energética
+        g.setColor(Color.orange);
+        g.drawString("Aperte a tecla 'Espaço ou barra' para lançar o projetil", 0, 340);
+        g.setColor(Color.green);
+        g.fillRect(5, 350, 450, 40);
+        
+        g.setColor(Color.white);
+        g.fillRect(10,355, barra_energ_largura, 30);
+        
+        //projetil
+        if(projetil==true){
+        g.setColor(Color.green);
+        g.fillOval(projetil_x, projetil_y, 20, 20);
+            
+        //Exibir coordenadas do projetil:
+        g.setColor(Color.white);
+	 g.setFont(new Font("Century Gothic", Font.BOLD, 10));
+	 g.drawString("projetil_x:"+projetil_x, 0, 20);
+         g.drawString("projetil_y:"+projetil_y, 0, 40);
+        
+        }
        
+        
+        
+        
 	//efeito animado
-	g.setColor(Color.orange);
-	g.fillRect(x, y, largura, altura);
+	g.setColor(projetil_explosion);
+	g.fillOval(x, y, largura, altura);
 	
 	
-	//--
-	x -=1;
-	largura += 2;
-	y -= 1;
-	altura += 2;
 	
-	if(y <INICIAL_Y - 10) {
-		y = INICIAL_Y;
-		altura = INICIAL_ALTURA;
-		
-		if(x < INICIAL_X - 20)
-			x = INICIAL_X;
-			largura = INICIAL_LARGURA;
-	
-	}
+        //efeito animado do alvo
+x -= 1;
+largura += 2;
+y -= 1;
+altura += 2;
+int pulso = 0;
+if(y <INICIAL_Y - 10) {
+	y = INICIAL_Y;
+	altura = INICIAL_ALTURA;
+	largura = INICIAL_LARGURA;
+	if(x < INICIAL_X ){
+		x = INICIAL_X;
+                if(projetil_explosion == Color.red)
+                    projetil_explosion = Color.orange;
+        }
+}
         
          //colisao com a borda:
 if(player_x>=largura_janela -45)
@@ -153,7 +202,44 @@ if(player_x<=0 +5)
 
 
 
+
+//efeito animado da barra energética
+barra_energ_largura += 1;
+if(barra_energ_largura == 435)
+    barra_energ_largura = 0;
+
+
      }
+         //efeito animado do projetil
+if(projetil == true)
+    projetil_y -= 10;
+
+//colisão do projetil com o topo da tela
+if(projetil_y == 0){
+    
+    projetil_y = player_y - 20;
+    projetil = false;
+}
+
+
+//colisão do projetil com o Alvo **só falta agora criar a colisão para o tamanho da imagem
+   // coordenadas da ultima borda do alvo: 50y (descobri printando as coordenadas e anotando a coordenada que o projetil encosta no alvo)
+   //já a coordenada x, a cadada vez que o jogador anda para a direita coloquei para andar +4 de coordenadas, e entao verifiquei aa coordenada da borda mais esquerda do alvo e a mais a direita, entre elas o jogador so podera atirar de +4 em +4 coorenadas
+   // ou seja de 170x a 198x, andando de 4 em 4. dá:162, 166, 170, 174, 178, 182, 186, 190, 194, 198, 202.
+
+if(this.projetil_y == 50  && (this.projetil_x == 162|| this.projetil_x == 166  || this.projetil_x == 170 || this.projetil_x == 174 || this.projetil_x == 178 || this.projetil_x == 182 || this.projetil_x == 186 || this.projetil_x == 190 || this.projetil_x == 194 || this.projetil_x == 198|| this.projetil_x == 202)){ 
+// se fosse apenas as coordenadas principais seria: if(this.projetil_y == 30 && this.projetil_x == 170){ 
+    this.projetil_explosion = Color.red;
+   this.projetil_x = player_x;
+    this.projetil_y = player_y - 20;
+    this.projetil = false;
+     
+            
+}
+
+
+        
+
 	Toolkit.getDefaultToolkit().sync();//sem essa linha a anima��o n�o vai ficar boa no Linux.
 	
 		g.dispose();
@@ -234,6 +320,17 @@ public void keyPressed(KeyEvent e) {
                System.exit(0);
               }
          }
+         
+          if(c == KeyEvent.VK_SPACE){
+              projetil_x = this.player_x;
+              if(projetil == false)
+          projetil = true;
+         // else
+            //      projetil = false;
+            
+           
+          
+	 }
 	 
 }
 
